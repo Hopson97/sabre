@@ -27,34 +27,7 @@ namespace sabre {
          * @return false
          */
         template <typename CommandEnum, typename Callback>
-        bool whileRecievePacket(Callback callback)
-        {
-            Event event;
-            sf::Packet packet;
-            CommandEnum command;
-            while (receiveNetEvent(m_socket, packet, event)) {
-                switch (event.type) {
-                    case Event::EventType::Connect:
-                        handlePeerConnection(event);
-                        break;
-
-                    case Event::EventType::Disconnect:
-                        // handle disconnect...
-                        m_onPeerDisconnect(event.details);
-                        break;
-
-                    case Event::EventType::Data:
-                        packet >> command;
-                        callback(event.details, packet, command);
-                        break;
-
-                    default:
-                        break;
-                }
-                return true;
-            }
-            return false;
-        }
+        bool ticking(Callback callback);
 
         bool send(sf::Packet &packet);
         bool connected() const;
@@ -77,6 +50,43 @@ namespace sabre {
 
         // Used for receiving packets
         sf::IpAddress m_recievedIp;
+        sf::Clock m_stayAliveClock;
         Port m_recievedPort;
     };
+
+    template <typename CommandEnum, typename Callback>
+    bool Client::ticking(Callback callback)
+    {
+        if (m_stayAliveClock.getElapsedTime() > sf::seconds(2)) {
+            m_stayAliveClock.restart();
+            auto packet = makePacket(Event::EventType::KeepAlive);
+            send(packet);
+        }
+        Event event;
+        sf::Packet packet;
+        CommandEnum command;
+        while (receiveNetEvent(m_socket, packet, event)) {
+            switch (event.type) {
+                case Event::EventType::Connect:
+                    handlePeerConnection(event);
+                    break;
+
+                case Event::EventType::Disconnect:
+                    // handle disconnect...
+                    m_onPeerDisconnect(event.details);
+                    break;
+
+                case Event::EventType::Data:
+                    packet >> command;
+                    callback(event.details, packet, command);
+                    break;
+
+                default:
+                    break;
+            }
+            return true;
+        }
+        return false;
+    }
+
 } // namespace sabre
