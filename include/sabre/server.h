@@ -33,7 +33,7 @@ namespace sabre {
                OnEventFunction onClientDisconnect);
 
         /**
-         * @brief Handles stream of all the packets being recieved
+         * @brief Handles stream of all the packets being received
          *
          * @tparam CommandEnum
          * @tparam Callback

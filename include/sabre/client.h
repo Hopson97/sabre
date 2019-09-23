@@ -19,7 +19,7 @@ namespace sabre {
         ~Client();
 
         /**
-         * @brief Handles stream of all the packets being recieved
+         * @brief Handles stream of all the packets being received
          *
          * @tparam CommandEnum
          * @tparam Callback
@@ -50,9 +50,9 @@ namespace sabre {
         bool m_isConnected = false;
 
         // Used for receiving packets
-        sf::IpAddress m_recievedIp;
+        sf::IpAddress m_receivedIp;
         sf::Clock m_stayAliveClock;
-        Port m_recievedPort;
+        Port m_receivedPort;
     };
 
     template <typename CommandEnum, typename Callback>

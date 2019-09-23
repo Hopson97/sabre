@@ -62,7 +62,7 @@ namespace sabre {
      *
      * @param socket The socket to receive the event on
      * @param packet The packet that was received
-     * @param event The event that was recieved
+     * @param event The event that was received
      * @return true An event has been received
      * @return false Nothing was received
      */
