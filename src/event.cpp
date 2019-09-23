@@ -8,7 +8,7 @@
 #include <sabre/packet_factory.h>
 
 namespace {
-    void respond(sf::UdpSocket &socket, const net::Event::Details &details,
+    void respond(sf::UdpSocket &socket, const sabre::Event::Details &details,
                  sf::Packet &packet)
     {
         if (socket.send(packet, details.senderIp, details.senderPort) !=
