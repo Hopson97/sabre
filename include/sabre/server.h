@@ -45,6 +45,7 @@ namespace sabre {
         template <typename CommandEnum, typename Callback>
         bool ticking(Callback callback)
         {
+            /*
             for (std::size_t i = 0 ; i < m_clients.size(); i++) {
                 if (m_clientConnected[i]) {
                     if (m_clock.getElapsedTime() - m_clients[i].lastUpdate > sf::seconds(m_timeout)) {
@@ -53,7 +54,7 @@ namespace sabre {
                         m_onDisconnect(static_cast<ClientId>(i));
                     }
                 }
-            }
+            }*/
             Event event;
             sf::Packet packet;
             CommandEnum command;
