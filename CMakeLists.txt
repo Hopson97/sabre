@@ -1,38 +1,32 @@
-cmake_minimum_required(VERSION 3.10)
 
-#Set up project
-project(sf-net VERSION 1.0)
-
-#Set executable
-set(SOURCES
-    sfnet/test.cpp
+set(SABRE_NAME sabre)
+add_library(${SABRE_NAME} 
+    src/sabre/test.cpp
 )
 
-add_library(${PROJECT_NAME} ${SOURCES})
+target_include_directories(sfnet include)
+target_include_directories(${PROJECT_NAME} include)
 
 #Set C++17
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_EXTENSIONS OFF)
+target_compile_features(${SABRE_NAME} PUBLIC cxx_std_17)
+set_target_properties(${SABRE_NAME} PROPERTIES CXX_EXTENSIONS OFF)
 
 #Set flags
 if(MSVC)
-  	target_compile_options(${PROJECT_NAME} PRIVATE 
+  	target_compile_options(${SABRE_NAME} PRIVATE 
     	/W4 /WX)
 else()
-  	target_compile_options(${PROJECT_NAME} PRIVATE 
-		-Wall -Wextra -pedantic -Werror)		#Warning flags
+  	target_compile_options(${SABRE_NAME} PRIVATE 
+		-Wall -Wextra -pedantic -Werror)
 endif()
 
-#Set module path
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+#Link libraries 
 
-#Find libraries
-find_package(Threads)
-find_package(SFML REQUIRED audio network graphics window system)
+#Link threads
+#find_package(Threads)
+#target_link_libraries(sfnet Threads::Threads)
 
-#Finally
-target_link_libraries(${PROJECT_NAME} 
-    Threads::Threads 
-    ${SFML_LIBRARIES} 
-    ${SFML_DEPENDENCIES}
-)
+#Link SFML 
+#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+#find_package(SFML REQUIRED network system)
+#target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
