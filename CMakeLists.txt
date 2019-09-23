@@ -6,8 +6,8 @@ add_library(sabre
 	src/sabre/packet_factory.cpp
 )
 
-target_include_directories(sabre include)
-target_include_directories(${PROJECT_NAME} include)
+target_include_directories(sabre PRIVATE include)
+target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 #Set C++17
 target_compile_features(sabre PUBLIC cxx_std_17)
