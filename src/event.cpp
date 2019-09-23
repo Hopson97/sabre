@@ -1,11 +1,11 @@
-#include "event.h"
+#include <sabre/event.h>
 
 #include <SFML/Network/Packet.hpp>
 #include <SFML/Network/UdpSocket.hpp>
 
 #include <iostream>
 
-#include "packet_factory.h"
+#include <sabre/packet_factory.h>
 
 namespace {
     void respond(sf::UdpSocket &socket, const net::Event::Details &details,

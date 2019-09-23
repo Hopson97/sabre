@@ -1,9 +1,9 @@
-#include "client.h"
+#include <sabre/client.h>
 
 #include <iostream>
 
-#include "event.h"
-#include "packet_factory.h"
+#include <sabre/event.h>
+#include <sabre/packet_factory.h>
 
 #include <SFML/Network/Packet.hpp>
 

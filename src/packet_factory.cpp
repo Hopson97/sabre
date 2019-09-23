@@ -1,4 +1,4 @@
-#include "packet_factory.h"
+#include <sabre/packet_factory.h>
 
 namespace sabre {
     sf::Packet makePacket(Event::EventType type)

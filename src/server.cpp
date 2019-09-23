@@ -1,6 +1,6 @@
-#include "server.h"
+#include <sabre/server.h>
 
-#include "event.h"
+#include <sabre/event.h>
 
 #include <SFML/Network/Packet.hpp>
 #include <iostream>
