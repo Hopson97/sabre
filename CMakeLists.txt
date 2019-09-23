@@ -7,7 +7,7 @@ add_library(${SABRE_NAME}
 	src/sabre/packet_factory.cpp
 )
 
-target_include_directories(${PROJECT_NAME} include)
+target_include_directories(${SABRE_NAME} include)
 target_include_directories(${PROJECT_NAME} include)
 
 #Set C++17
