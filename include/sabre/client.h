@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "event.h"
+#include "packet_factory.h"
 
 namespace sabre {
     class Client final {
