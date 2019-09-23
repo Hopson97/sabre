@@ -5,7 +5,7 @@ project(sf-net VERSION 1.0)
 
 #Set executable
 set(SOURCES
-    src/sfnet/test.cpp
+    sfnet/test.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCES})
