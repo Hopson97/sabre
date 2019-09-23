@@ -7,7 +7,6 @@ namespace sf {
 
 #include <SFML/Network/IpAddress.hpp>
 #include <cstdint>
-#include <functional>
 
 namespace sabre {
     using Port = std::uint16_t;
@@ -69,5 +68,5 @@ namespace sabre {
     bool receiveNetEvent(sf::UdpSocket &socket, sf::Packet &packet,
                          Event &event);
 
-    using OnEventFunction = std::function<void(const Event::Details &details)>;
+    using OnEventFunction = void(*)(const Event::Details &details);
 } // namespace sabre

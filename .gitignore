@@ -15,3 +15,5 @@ sabre/
 !include/sabre
 
 .directory
+
+.vscode
