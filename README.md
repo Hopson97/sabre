@@ -2,7 +2,7 @@
 
 Client Server library thing built ontop of SFML 2.4.2
 
-For now it is for personal use so it can't really be built (I have script kiddie scripts for this) and no docs for now, but I have public for those who are curious.
+For now it is for personal use so it can't really be built (I have [script kiddie scripts](https://github.com/Hopson97/socket-playground/blob/master/udp-rect-keys/scripts/getsabre.sh) for this) and no docs for now, but I have public for those who are curious.
 
 ## History
 
