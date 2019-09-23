@@ -1,25 +1,24 @@
 
-set(SABRE_NAME sabre)
-add_library(${SABRE_NAME} 
+add_library(sabre 
 	src/sabre/client.cpp
 	src/sabre/server.cpp 
 	src/sabre/event.cpp 
 	src/sabre/packet_factory.cpp
 )
 
-target_include_directories(${SABRE_NAME} include)
+target_include_directories(sabre include)
 target_include_directories(${PROJECT_NAME} include)
 
 #Set C++17
-target_compile_features(${SABRE_NAME} PUBLIC cxx_std_17)
-set_target_properties(${SABRE_NAME} PROPERTIES CXX_EXTENSIONS OFF)
+target_compile_features(sabre PUBLIC cxx_std_17)
+set_target_properties(sabre PROPERTIES CXX_EXTENSIONS OFF)
 
 #Set flags
 if(MSVC)
-  	target_compile_options(${SABRE_NAME} PRIVATE 
+  	target_compile_options(sabre PRIVATE 
     	/W4 /WX)
 else()
-  	target_compile_options(${SABRE_NAME} PRIVATE 
+  	target_compile_options(sabre PRIVATE 
 		-Wall -Wextra -pedantic -Werror)
 endif()
 
