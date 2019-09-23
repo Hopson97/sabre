@@ -1,9 +1,9 @@
 
 add_library(sabre 
-	src/sabre/client.cpp
-	src/sabre/server.cpp 
-	src/sabre/event.cpp 
-	src/sabre/packet_factory.cpp
+	src/client.cpp
+	src/server.cpp 
+	src/event.cpp 
+	src/packet_factory.cpp
 )
 
 target_include_directories(sabre PRIVATE include)
