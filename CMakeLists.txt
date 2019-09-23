@@ -5,11 +5,10 @@ project(sf-net VERSION 1.0)
 
 #Set executable
 set(SOURCES
-    src/main.cpp
-    src/input/keyboard.cpp
+    src/sfnet/test.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME} ${SOURCES})
 
 #Set C++17
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
