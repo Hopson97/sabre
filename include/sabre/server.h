@@ -42,7 +42,7 @@ namespace sabre {
          * @return false
          */
         template <typename CommandEnum, typename Callback>
-        bool ticking(Callback callback);
+        bool whileTicking(Callback callback);
 
         void sendPacketToPeer(ClientId peerId, sf::Packet &packet);
         void broadcastToPeers(sf::Packet& packet);
@@ -68,14 +68,14 @@ namespace sabre {
     };
 
     template <typename CommandEnum, typename Callback>
-    bool Server::ticking(Callback callback)
+    bool Server::whileTicking(Callback callback)
     {
         /*
         for (std::size_t i = 0 ; i < m_clients.size(); i++) {
             if (m_clientConnected[i]) {
                 if (m_clock.getElapsedTime() - m_clients[i].lastUpdate > sf::seconds(m_timeout)) {
                     auto packet = makePacket(Event::Type::Disconnect, static_cast<ClientId>(i));
-    
+
                     m_onDisconnect(static_cast<ClientId>(i));
                 }
             }
@@ -88,22 +88,22 @@ namespace sabre {
                 case Event::EventType::Connect:
                     handleIncomingConnection(event);
                     break;
-    
+
                 case Event::EventType::Disconnect:
                     // handle disconnect...
                     m_onDisconnect(event.details);
                     break;
-    
+
                 case Event::EventType::KeepAlive:
                     keepAlive(event);
                     break;
-    
+
                 case Event::EventType::Data:
                     keepAlive(event);
                     packet >> command;
                     callback(event.details, packet, command);
                     break;
-    
+
                 default:
                     break;
             }

@@ -28,7 +28,7 @@ namespace sabre {
          * @return false
          */
         template <typename CommandEnum, typename Callback>
-        bool ticking(Callback callback);
+        bool whileTicking(Callback callback);
 
         bool send(sf::Packet &packet);
         bool connected() const;
@@ -56,7 +56,7 @@ namespace sabre {
     };
 
     template <typename CommandEnum, typename Callback>
-    bool Client::ticking(Callback callback)
+    bool Client::whileTicking(Callback callback)
     {
         if (m_stayAliveClock.getElapsedTime() > sf::seconds(2)) {
             m_stayAliveClock.restart();
