@@ -4,7 +4,7 @@
 
 #include "event.h"
 
-namespace net {
+namespace sabre {
     sf::Packet makePacket(Event::EventType event);
     sf::Packet makePacket(Event::EventType event, ClientId id);
 
@@ -14,4 +14,4 @@ namespace net {
         packet << Event::EventType::Data << id << command;
         return packet;
     }
-} // namespace net
+} // namespace sabre

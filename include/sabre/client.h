@@ -9,7 +9,7 @@
 
 #include "event.h"
 
-namespace net {
+namespace sabre {
     class Client final {
       public:
         Client(const sf::IpAddress &serverAddress, Port serverPort,
@@ -79,4 +79,4 @@ namespace net {
         sf::IpAddress m_recievedIp;
         Port m_recievedPort;
     };
-} // namespace net
+} // namespace sabre

@@ -1,6 +1,6 @@
 #include "packet_factory.h"
 
-namespace net {
+namespace sabre {
     sf::Packet makePacket(Event::EventType type)
     {
         sf::Packet packet;
@@ -14,4 +14,4 @@ namespace net {
         packet << type << id;
         return packet;
     }
-} // namespace net
+} // namespace sabre

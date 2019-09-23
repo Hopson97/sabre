@@ -18,7 +18,7 @@ namespace {
     }
 } // namespace
 
-namespace net {
+namespace sabre {
     void Event::respond(sf::UdpSocket &socket, EventType type) const
     {
         auto packet = makePacket(type);
@@ -56,4 +56,4 @@ namespace net {
         packet >> event.type >> event.details.id;
         return true;
     }
-} // namespace net
+} // namespace sabre

@@ -9,7 +9,7 @@ namespace sf {
 #include <cstdint>
 #include <functional>
 
-namespace net {
+namespace sabre {
     using Port = std::uint16_t;
     using ClientId = std::uint8_t;
 
@@ -70,4 +70,4 @@ namespace net {
                          Event &event);
 
     using OnEventFunction = std::function<void(const Event::Details &details)>;
-} // namespace net
+} // namespace sabre

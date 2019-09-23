@@ -11,7 +11,7 @@
 
 struct Event;
 
-namespace net {
+namespace sabre {
     /**
      * @brief The server that clients can connect to
      */
@@ -108,4 +108,4 @@ namespace net {
         sf::Clock m_clock;
         sf::Time m_timeout = sf::seconds(3.0);
     };
-} // namespace net
+} // namespace sabre

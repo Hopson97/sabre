@@ -7,7 +7,7 @@
 
 #include <SFML/Network/Packet.hpp>
 
-namespace net {
+namespace sabre {
     Client::Client(const sf::IpAddress &serverAddress, Port serverPort,
                    OnEventFunction onPeerConnect,
                    OnEventFunction onPeerDisconnect)
@@ -57,4 +57,4 @@ namespace net {
     }
 
     ClientId Client::getClientId() const { return m_id; }
-} // namespace net
+} // namespace sabre

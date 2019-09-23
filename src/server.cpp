@@ -5,7 +5,7 @@
 #include <SFML/Network/Packet.hpp>
 #include <iostream>
 
-namespace net {
+namespace sabre {
     Server::Server(OnEventFunction onClientConnect,
                    OnEventFunction onClientDisconnect)
         : m_onConnect(onClientConnect)
@@ -69,4 +69,4 @@ namespace net {
         return m_clients[static_cast<std::size_t>(id)];
     }
 
-} // namespace net
+} // namespace sabre
