@@ -10,3 +10,8 @@ cmake_install.cmake
 cmake_modules/
 
 sabre/
+
+!src/sabre
+!include/sabre
+
+.directory

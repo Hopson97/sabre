@@ -1,7 +1,10 @@
 
 set(SABRE_NAME sabre)
 add_library(${SABRE_NAME} 
-    src/sabre/test.cpp
+	src/sabre/client.cpp
+	src/sabre/server.cpp 
+	src/sabre/event.cpp 
+	src/sabre/packet_factory.cpp
 )
 
 target_include_directories(sfnet include)
