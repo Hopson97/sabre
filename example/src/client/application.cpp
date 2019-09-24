@@ -152,14 +152,13 @@ void Application::update(sf::Clock &elapsed, sf::Time delta)
         auto lerp = [](float a, float b, float t) {
             return (1 - t) * a + t * b;
         };
-        player.lerpValue += delta.asSeconds() * 2;
+        player.lerpValue += delta.asSeconds();
         auto newX = lerp(player.sprite.getPosition().x, player.nextPosition.x,
                          player.lerpValue);
         auto newY = lerp(player.sprite.getPosition().y, player.nextPosition.y,
                          player.lerpValue);
 
         player.sprite.setPosition(newX, newY);
-        player.text.setPosition(player.sprite.getPosition());
     }
 }
 
@@ -170,8 +169,9 @@ void Application::render()
 
     for (auto &player : m_players) {
         if (player.isConnected) {
-            m_window.draw(player.text);
+            player.text.setPosition(player.sprite.getPosition());
             m_window.draw(player.sprite);
+            m_window.draw(player.text);
         }
     }
 
