@@ -6,7 +6,7 @@
 
 #include "../common/commands.h"
 
-Application::Application()
+Application::Application(std::string name)
     : m_client(sf::IpAddress::LocalHost, 54321,
                [this](const sabre::Event::Details &details) {
                    std::cout << details.senderIp.toString();
@@ -22,12 +22,20 @@ Application::Application()
     m_player.sprite.setOutlineColor(sf::Color::Red);
     m_player.sprite.setOutlineThickness(2);
 
+    m_font.loadFromFile("res/arcade.TTF");
+
     std::cout << "Client set up! ID: " << (int)m_client.getClientId() << '\n';
+
+    auto nameSetPacket =
+        sabre::makePacket(static_cast<sabre::ClientId>(m_client.getClientId()),
+                          Command::SetPlayerName);
+    nameSetPacket << name;
+    m_client.send(nameSetPacket);
 }
 
 void Application::run()
 {
-     if (!m_client.connected()) {
+    if (!m_client.connected()) {
         return;
     }
     m_window.create({WINDOW_WIDTH, WINDOW_HEIGHT}, "UDP Socket playground");
@@ -66,6 +74,10 @@ void Application::run()
                         handlePlayerPosition(player, packet);
                         break;
 
+                    case Command::SetPlayerName:
+                        handlePlayerName(player, packet);
+                        break;
+
                     default:
                         break;
                 }
@@ -73,7 +85,7 @@ void Application::run()
 
         if (netTimer.getElapsedTime().asMilliseconds() > 25) {
             auto packet = sabre::makePacket(m_client.getClientId(),
-                                          Command::PlayerPosition);
+                                            Command::PlayerPosition);
             packet << m_player.sprite.getPosition().x
                    << m_player.sprite.getPosition().y;
             m_client.send(packet);
@@ -81,7 +93,7 @@ void Application::run()
             netTimer.restart();
 
             packet = sabre::makePacket(m_client.getClientId(),
-                                     Command::GetPlayerPositions);
+                                       Command::GetPlayerPositions);
             m_client.send(packet);
             netTimer.restart();
         }
@@ -147,6 +159,7 @@ void Application::update(sf::Clock &elapsed, sf::Time delta)
                          player.lerpValue);
 
         player.sprite.setPosition(newX, newY);
+        player.text.setPosition(player.sprite.getPosition());
     }
 }
 
@@ -157,6 +170,7 @@ void Application::render()
 
     for (auto &player : m_players) {
         if (player.isConnected) {
+            m_window.draw(player.text);
             m_window.draw(player.sprite);
         }
     }
@@ -184,4 +198,15 @@ void Application::handlePlayerPosition(Player &player, sf::Packet &packet)
 {
     packet >> player.nextPosition.x >> player.nextPosition.y;
     player.lerpValue = 0;
+}
+
+void Application::handlePlayerName(Player &player, sf::Packet &packet)
+{
+    packet >> player.name;
+    std::cout << "Name: " << player.name << std::endl;
+
+    player.text.setFont(m_font);
+    player.text.setOutlineColor(sf::Color::Black);
+    player.text.setOutlineThickness(2);
+    player.text.setString(player.name);
 }

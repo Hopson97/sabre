@@ -12,17 +12,18 @@
 
 Server::Server()
     : m_server(4u,
-          [this](const sabre::Event::Details &details) {
-              auto &player = m_players[static_cast<std::size_t>(details.id)];
-              player.connected = true;
-              player.id = details.id;
-              std::cout << "Player connected!\n";
-              std::cout << "ID: " << (int)player.id << std::endl;
-          },
-          [this](const sabre::Event::Details &details) {
-              const auto id = details.id;
-              m_players[static_cast<std::size_t>(id)].connected = false;
-          })
+               [this](const sabre::Event::Details &details) {
+                   auto &player =
+                       m_players[static_cast<std::size_t>(details.id)];
+                   player.connected = true;
+                   player.id = details.id;
+                   std::cout << "Player connected!\n";
+                   std::cout << "ID: " << (int)player.id << std::endl;
+               },
+               [this](const sabre::Event::Details &details) {
+                   const auto id = details.id;
+                   m_players[static_cast<std::size_t>(id)].connected = false;
+               })
 {
 }
 
@@ -40,6 +41,10 @@ void Server::run()
 
                     case Command::GetPlayerPositions:
                         handleRequestPlayerPositions(details.id);
+                        break;
+
+                    case Command::SetPlayerName:
+                        handlePlayerNameSet(details.id, packet);
                         break;
 
                     default:
@@ -68,4 +73,16 @@ void Server::handleRequestPlayerPositions(sabre::ClientId requesterId)
             m_server.sendPacketToPeer(requesterId, packet);
         }
     }
+}
+
+void Server::handlePlayerNameSet(sabre::ClientId id, sf::Packet &packet)
+{
+    auto &player = m_players[static_cast<std::size_t>(id)];
+    packet >> player.name;
+
+    std::cout << "Player name set: " << player.name << "\n";
+
+    auto broadcast = sabre::makePacket(player.id, Command::SetPlayerName);
+    broadcast << player.name;
+    m_server.broadcastToPeers(broadcast);
 }

@@ -12,6 +12,8 @@ struct receivedCommandInfo;
 class Server final {
     struct Player {
         sf::FloatRect rect;
+        std::string name;
+
         sabre::ClientId id;
         bool connected = false;
     };
@@ -24,6 +26,7 @@ class Server final {
   private:
     void handlePlayerPosition(sabre::ClientId id, sf::Packet &packet);
     void handleRequestPlayerPositions(sabre::ClientId id);
+    void handlePlayerNameSet(sabre::ClientId id, sf::Packet &packet);
 
     sabre::Server m_server;
     std::array<Player, sabre::Server::MAX_CONNECTIONS> m_players;

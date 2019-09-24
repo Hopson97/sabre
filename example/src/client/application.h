@@ -3,6 +3,8 @@
 #include "input/keyboard.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include <SFML/Network/Packet.hpp>
@@ -13,7 +15,7 @@ struct receivedCommandInfo;
 
 class Application {
   public:
-    Application();
+    Application(std::string name = "None");
 
     void run();
 
@@ -27,7 +29,10 @@ class Application {
     struct Player {
         Player() { sprite.setSize({PLAYER_WIDTH, PLAYER_HEIGHT}); }
 
+        std::string name;
+
         sf::RectangleShape sprite;
+        sf::Text text;
         sf::Vector2f velocity;
 
         sf::Vector2f nextPosition;
@@ -40,10 +45,9 @@ class Application {
     void render();
 
     void pollWindowEvents();
-    /*
-    void handleIncomingPacket();
-*/
+
     void handlePlayerPosition(Player &player, sf::Packet &packet);
+    void handlePlayerName(Player &player, sf::Packet &packet);
 
     sabre::Client m_client;
 
@@ -51,5 +55,6 @@ class Application {
     std::array<Player, 4> m_players;
 
     sf::RenderWindow m_window;
+    sf::Font m_font;
     Keyboard m_keyboard;
 };

@@ -20,7 +20,7 @@ int main(int argc, char **argv)
         server.run();
     }
     else if (kind == "client") {
-        Application app;
+        Application app(name);
         app.run();
     }
 }
