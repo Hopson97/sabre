@@ -4,6 +4,8 @@
 #include <SFML/Network/Packet.hpp>
 #include <iostream>
 
+#include "packet_factory.h"
+
 namespace sabre {
     Server::Server(std::size_t maxConnections, OnEventFunction onClientConnect,
                    OnEventFunction onClientDisconnect)
@@ -66,6 +68,12 @@ namespace sabre {
             }
         }
         return MAX_CONNECTIONS + 1;
+    }
+
+    void Server::handleNumConnections(const Event& event) {
+        auto packet = makePacket(Event::EventType::NumConnections);
+        packet << m_clientConnected << m_maxConnections;
+        event.respond(m_socket, packet);
     }
 
     Server::ConnectedClient &Server::getClient(ClientId id)

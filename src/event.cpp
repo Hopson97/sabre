@@ -32,15 +32,20 @@ namespace sabre {
         ::respond(socket, details, packet);
     }
 
+    void Event::respond(sf::UdpSocket &socket, sf::Packet& packet) const
+    {
+        ::respond(socket, details, packet);
+    }
+
     sf::Packet &operator<<(sf::Packet &packet, Event::EventType type)
     {
-        packet << static_cast<uint8_t>(type);
+        packet << static_cast<Event_t>(type);
         return packet;
     }
 
     sf::Packet &operator>>(sf::Packet &packet, Event::EventType &type)
     {
-        uint8_t commandId;
+        Event_t commandId;
         packet >> commandId;
         type = static_cast<Event::EventType>(commandId);
         return packet;

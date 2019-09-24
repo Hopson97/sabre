@@ -49,6 +49,7 @@ namespace sabre {
 
       private:
         void handleIncomingConnection(const Event &event);
+        void handleNumConnections(const Event& event);
 
         void keepAlive(const Event &event);
 
@@ -64,7 +65,8 @@ namespace sabre {
 
         sf::UdpSocket m_socket;
         sf::Clock m_clock;
-        sf::Time m_timeout = sf::seconds(3.0);
+        sf::Clock m_keepAliveClock;
+        sf::Time m_clientTimeout = sf::seconds(3.0);
 
         OnEventFunction m_onConnect;
         OnEventFunction m_onDisconnect;
@@ -73,16 +75,17 @@ namespace sabre {
     template <typename CommandEnum, typename Callback>
     bool Server::whileTicking(Callback callback)
     {
-        /*
-        for (std::size_t i = 0 ; i < m_clients.size(); i++) {
-            if (m_clientConnected[i]) {
-                if (m_clock.getElapsedTime() - m_clients[i].lastUpdate > sf::seconds(m_timeout)) {
-                    auto packet = makePacket(Event::Type::Disconnect, static_cast<ClientId>(i));
+        if (m_keepAliveClock.getElapsedTime() > m_clientTimeout) {
+            for (std::size_t i = 0 ; i < m_clients.size(); i++) {
+                if (m_clientConnected[i]) {
+                    if (m_clock.getElapsedTime() - m_clients[i].lastUpdate > sf::seconds(m_timeout)) {
+                        auto packet = makePacket(Event::Type::Disconnect, static_cast<ClientId>(i));
 
-                    m_onDisconnect(static_cast<ClientId>(i));
+                        m_onDisconnect(static_cast<ClientId>(i));
+                    }
                 }
             }
-        }*/
+        }
         Event event;
         sf::Packet packet;
         CommandEnum command;
@@ -100,6 +103,11 @@ namespace sabre {
                 case Event::EventType::KeepAlive:
                     keepAlive(event);
                     break;
+
+                case Event::EventType::NumConnections:
+                    handleNumConnections(event);
+                    break;
+
 
                 case Event::EventType::Data:
                     keepAlive(event);

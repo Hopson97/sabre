@@ -6,13 +6,11 @@ namespace sf {
 } // namespace sf
 
 #include <SFML/Network/IpAddress.hpp>
-#include <cstdint>
 #include <functional>
 
-namespace sabre {
-    using Port = std::uint16_t;
-    using ClientId = std::uint8_t;
+#include "defines.h"
 
+namespace sabre {
     /**
      * @brief An 'Event' sent via UDP sockets, holding information about the
      * event type and the sender
@@ -22,7 +20,7 @@ namespace sabre {
         /**
          * @brief The different event types
          */
-        enum class EventType : uint8_t {
+        enum class EventType : Event_t {
             Connect,
             Data,
             Disconnect,
@@ -30,6 +28,8 @@ namespace sabre {
 
             RejectConnection,
             AcceptConnection,
+
+            NumConnections,
         };
 
         /**
@@ -49,6 +49,7 @@ namespace sabre {
          */
         void respond(sf::UdpSocket &socket, EventType type) const;
         void respond(sf::UdpSocket &socket, EventType type, ClientId id) const;
+        void respond(sf::UdpSocket &socket, sf::Packet& packet) const;
 
         friend sf::Packet &operator<<(sf::Packet &packet, EventType type);
         friend sf::Packet &operator>>(sf::Packet &packet, EventType &type);
