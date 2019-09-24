@@ -1,14 +1,13 @@
-#include <sabre/server.h>
 #include <sabre/event.h>
+#include <sabre/server.h>
 
 #include <SFML/Network/Packet.hpp>
 #include <iostream>
 
 namespace sabre {
-    Server::Server(std::size_t maxConnections,
-                    OnEventFunction onClientConnect,
-                    OnEventFunction onClientDisconnect)
-        : m_maxConnections (maxConnections)
+    Server::Server(std::size_t maxConnections, OnEventFunction onClientConnect,
+                   OnEventFunction onClientDisconnect)
+        : m_maxConnections(maxConnections)
         , m_clients(maxConnections)
         , m_clientConnected(maxConnections)
         , m_onConnect(onClientConnect)
@@ -27,8 +26,9 @@ namespace sabre {
         }
     }
 
-    void Server::broadcastToPeers(sf::Packet& packet) {
-        for (std::size_t i = 0 ; i < m_clients.size(); i++) {
+    void Server::broadcastToPeers(sf::Packet &packet)
+    {
+        for (std::size_t i = 0; i < m_clients.size(); i++) {
             sendPacketToPeer(static_cast<ClientId>(i), packet);
         }
     }
@@ -43,8 +43,9 @@ namespace sabre {
 
             event.respond(m_socket, Event::EventType::AcceptConnection,
                           static_cast<ClientId>(slot));
-            
-            m_onConnect({event.details.senderIp, event.details.senderPort, static_cast<ClientId>(slot)});
+
+            m_onConnect({event.details.senderIp, event.details.senderPort,
+                         static_cast<ClientId>(slot)});
         }
         else {
             event.respond(m_socket, Event::EventType::RejectConnection);

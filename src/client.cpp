@@ -52,9 +52,7 @@ namespace sabre {
         m_onPeerConnect(event.details);
     }
 
-    bool Client::connected() const {
-        return m_isConnected;
-    }
+    bool Client::connected() const { return m_isConnected; }
 
     ClientId Client::getClientId() const { return m_id; }
 } // namespace sabre
