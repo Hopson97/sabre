@@ -1,11 +1,5 @@
 #!/bin/bash
 
-rm -rf -d lib/sabre
-cd ..
-sh build.sh
-mv sabre/ example/lib/sabre
-cd example
-
 mkdir -p bin
 cd bin 
 mkdir -p release
