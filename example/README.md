@@ -1,6 +1,6 @@
-# UDP Rectangles
+# Sabre Example
 
-none for now
+Example of the sabre library
 
 ## Building and Running
 
@@ -16,22 +16,22 @@ sudo apt install libsfml-dev
 
 If this is not possible (eg windows), you can install these manually from their respective websites:
 
-https://www.sfml-dev.org/download.php
+[SFML](https://www.sfml-dev.org/download.php)
 
 ### Linux
 
 To build, at the root of the project:
 
 ```sh
-sh scripts/build.sh
+sh scripts/build2.sh
 ```
 
 To run, at the root of the project:
 
 ```sh
 #run server
-sh scripts/server.sh _
+sh scripts/server.sh
 
-#run client
-sh scripts/client.sh name
+#run clients
+sh scripts/client.sh <player name>
 ```
