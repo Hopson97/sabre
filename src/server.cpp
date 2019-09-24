@@ -10,14 +10,13 @@ namespace sabre {
     Server::Server(std::size_t maxConnections, OnEventFunction onClientConnect,
                    OnEventFunction onClientDisconnect)
         : m_maxConnections(maxConnections)
-        , m_clients(maxConnections)
-        , m_clientConnected(maxConnections)
+        , m_clients(static_cast<std::size_t>(maxConnections))
+        , m_clientConnected(static_cast<std::size_t>(maxConnections), false)
         , m_onConnect(onClientConnect)
         , m_onDisconnect(onClientDisconnect)
     {
         m_socket.bind(54321);
         m_socket.setBlocking(false);
-        std::fill(m_clientConnected.begin(), m_clientConnected.end(), false);
     }
 
     void Server::sendPacketToPeer(ClientId peerId, sf::Packet &packet)
@@ -72,7 +71,7 @@ namespace sabre {
 
     void Server::handleNumConnections(const Event& event) {
         auto packet = makePacket(Event::EventType::NumConnections);
-        packet << m_clientConnected << m_maxConnections;
+        packet << m_currentConnections << m_maxConnections;
         event.respond(m_socket, packet);
     }
 

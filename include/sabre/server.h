@@ -49,6 +49,7 @@ namespace sabre {
 
       private:
         void handleIncomingConnection(const Event &event);
+        void handleClientDisconnect(const Event& event);
         void handleNumConnections(const Event& event);
 
         void keepAlive(const Event &event);
@@ -56,8 +57,8 @@ namespace sabre {
         std::size_t emptySlot() const;
         ConnectedClient &getClient(ClientId id);
 
-        std::size_t m_currentConnections = 0;
-        const std::size_t m_maxConnections;
+        uint16_t m_currentConnections = 0;
+        const uint16_t m_maxConnections;
         
         std::vector<ConnectedClient> m_clients;
         std::vector<uint8_t>  m_clientConnected;
