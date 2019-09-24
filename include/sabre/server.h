@@ -5,10 +5,9 @@
 #include <SFML/System/Clock.hpp>
 
 #include <array>
+#include <iostream>
 
 #include "event.h"
-
-struct Event;
 
 namespace sabre {
     /**
@@ -76,18 +75,17 @@ namespace sabre {
     template <typename CommandEnum, typename Callback>
     bool Server::whileTicking(Callback callback)
     {
-        /*
         if (m_keepAliveClock.getElapsedTime() > m_clientTimeout) {
+            m_keepAliveClock.restart();
             for (std::size_t i = 0 ; i < m_clients.size(); i++) {
                 if (m_clientConnected[i]) {
-                    if (m_clock.getElapsedTime() - m_clients[i].lastUpdate > sf::seconds(m_timeout)) {
-                        auto packet = makePacket(Event::Type::Disconnect, static_cast<ClientId>(i));
-
-                        m_onDisconnect(static_cast<ClientId>(i));
+                    if (m_clock.getElapsedTime() - m_clients[i].lastUpdate > m_clientTimeout) {
+                        m_clientConnected[i] = false;
+                        std::cout << i << " has disconnected\n";
                     }
                 }
             }
-        }*/
+        }
         Event event;
         sf::Packet packet;
         CommandEnum command;
