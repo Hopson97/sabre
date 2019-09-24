@@ -1,5 +1,4 @@
 #include <sabre/server.h>
-
 #include <sabre/event.h>
 
 #include <SFML/Network/Packet.hpp>
@@ -11,13 +10,13 @@ namespace sabre {
                     OnEventFunction onClientDisconnect)
         : m_maxConnections (maxConnections)
         , m_clients(maxConnections)
-        , m_clientsConnected(maxConnections)
+        , m_clientConnected(maxConnections)
         , m_onConnect(onClientConnect)
         , m_onDisconnect(onClientDisconnect)
     {
         m_socket.bind(54321);
         m_socket.setBlocking(false);
-        m_clientConnected.fill(false);
+        std::fill(m_clientConnected.begin(), m_clientConnected.end(), false);
     }
 
     void Server::sendPacketToPeer(ClientId peerId, sf::Packet &packet)
