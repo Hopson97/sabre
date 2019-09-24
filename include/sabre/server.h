@@ -29,7 +29,7 @@ namespace sabre {
       public:
         static constexpr std::size_t MAX_CONNECTIONS = 4;
 
-        Server(OnEventFunction onClientConnect,
+        Server(std::size_t maxConnections, OnEventFunction onClientConnect,
                OnEventFunction onClientDisconnect);
 
         /**
@@ -52,19 +52,22 @@ namespace sabre {
 
         void keepAlive(const Event &event);
 
-        OnEventFunction m_onConnect;
-        OnEventFunction m_onDisconnect;
-
         std::size_t emptySlot() const;
         ConnectedClient &getClient(ClientId id);
 
-        std::array<ConnectedClient, MAX_CONNECTIONS> m_clients;
-        std::array<bool, MAX_CONNECTIONS> m_clientConnected;
-        std::size_t currentConnections = 0;
+        std::size_t m_currentConnections = 0;
+        const std::size_t m_maxConnections;
+        
+        std::vector<ConnectedClient> m_clients;
+        std::vector<uint8_t>  m_clientConnected;
+
 
         sf::UdpSocket m_socket;
         sf::Clock m_clock;
         sf::Time m_timeout = sf::seconds(3.0);
+
+        OnEventFunction m_onConnect;
+        OnEventFunction m_onDisconnect;
     };
 
     template <typename CommandEnum, typename Callback>

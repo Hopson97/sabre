@@ -6,9 +6,13 @@
 #include <iostream>
 
 namespace sabre {
-    Server::Server(OnEventFunction onClientConnect,
-                   OnEventFunction onClientDisconnect)
-        : m_onConnect(onClientConnect)
+    Server::Server(std::size_t maxConnections,
+                    OnEventFunction onClientConnect,
+                    OnEventFunction onClientDisconnect)
+        : m_maxConnections (maxConnections)
+        , m_clients(maxConnections)
+        , m_clientsConnected(maxConnections)
+        , m_onConnect(onClientConnect)
         , m_onDisconnect(onClientDisconnect)
     {
         m_socket.bind(54321);
