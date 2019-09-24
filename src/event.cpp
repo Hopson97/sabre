@@ -32,7 +32,7 @@ namespace sabre {
         ::respond(socket, details, packet);
     }
 
-    void Event::respond(sf::UdpSocket &socket, sf::Packet& packet) const
+    void Event::respond(sf::UdpSocket &socket, sf::Packet &packet) const
     {
         ::respond(socket, details, packet);
     }
