@@ -4,7 +4,7 @@
 #include <SFML/Network/Packet.hpp>
 #include <iostream>
 
-#include "packet_factory.h"
+#include <sabre/packet_factory.h>
 
 namespace sabre {
     Server::Server(std::size_t maxConnections, OnEventFunction onClientConnect,

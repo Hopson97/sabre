@@ -76,6 +76,7 @@ namespace sabre {
     template <typename CommandEnum, typename Callback>
     bool Server::whileTicking(Callback callback)
     {
+        /*
         if (m_keepAliveClock.getElapsedTime() > m_clientTimeout) {
             for (std::size_t i = 0 ; i < m_clients.size(); i++) {
                 if (m_clientConnected[i]) {
@@ -86,7 +87,7 @@ namespace sabre {
                     }
                 }
             }
-        }
+        }*/
         Event event;
         sf::Packet packet;
         CommandEnum command;
