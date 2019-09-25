@@ -109,8 +109,6 @@ void Application::input()
 
 void Application::update(sf::Time delta)
 {
-    (void)delta;
-
     m_player.sprite.move(m_player.velocity);
     m_player.velocity *= 0.95f;
 
