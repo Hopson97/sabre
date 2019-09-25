@@ -69,6 +69,10 @@ void Application::run()
                         handlePlayerName(player, packet);
                         break;
 
+                    case Command::BallPosition:
+                        handleBallPosition(packet);
+                        break;
+
                     default:
                         break;
                 }
@@ -128,13 +132,14 @@ void Application::update(sf::Time delta)
         m_player.sprite.setPosition(x, 1);
     }
 
+    auto lerp = [](float a, float b, float t) {
+        return (1 - t) * a + t * b;
+    };
+
+    // @TODO Handle repeated code here
     for (auto &player : m_players) {
         if (&player == &m_player)
             continue;
-
-        auto lerp = [](float a, float b, float t) {
-            return (1 - t) * a + t * b;
-        };
         player.lerpValue += delta.asSeconds();
         auto newX = lerp(player.sprite.getPosition().x, player.nextPosition.x,
                          player.lerpValue);
@@ -143,6 +148,14 @@ void Application::update(sf::Time delta)
 
         player.sprite.setPosition(newX, newY);
     }
+
+    m_ball.lerpValue += delta.asSeconds();
+    auto newX = lerp(m_ball.sprite.getPosition().x, m_ball.nextPosition.x,
+                         m_ball.lerpValue);
+    auto newY = lerp(m_ball.sprite.getPosition().y, m_ball.nextPosition.y,
+                         m_ball.lerpValue);
+
+    m_ball.sprite.setPosition(newX, newY);
 }
 
 void Application::render()
@@ -150,6 +163,7 @@ void Application::render()
 
     m_window.clear();
 
+    m_window.draw(m_ball.sprite);
     for (auto &player : m_players) {
         if (player.isConnected) {
             player.text.setPosition(player.sprite.getPosition());
@@ -194,4 +208,10 @@ void Application::handlePlayerName(Application::Player &player,
     player.text.setOutlineColor(sf::Color::Black);
     player.text.setOutlineThickness(2);
     player.text.setString(player.name);
+}
+
+void Application::handleBallPosition(sf::Packet& packet)
+{
+    packet >> m_ball.nextPosition.x >> m_ball.nextPosition.y;
+    m_ball.lerpValue = 0;
 }

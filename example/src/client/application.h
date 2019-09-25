@@ -40,6 +40,15 @@ class Application {
 
         bool isConnected = false;
     };
+
+    struct Ball {
+      Ball() { sprite.setSize({PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2}); }
+
+      sf::RectangleShape sprite;
+      sf::Vector2f nextPosition;
+      float lerpValue;
+    };
+
     void input();
     void update(sf::Time delta);
     void render();
@@ -48,11 +57,13 @@ class Application {
 
     void handlePlayerPosition(Player &player, sf::Packet &packet);
     void handlePlayerName(Player &player, sf::Packet &packet);
+    void handleBallPosition(sf::Packet& packet);
 
     sabre::Client m_client;
 
     Player &m_player;
     std::array<Player, 4> m_players;
+    Ball m_ball;
 
     sf::RenderWindow m_window;
     sf::Font m_font;

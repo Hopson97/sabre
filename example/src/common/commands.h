@@ -8,8 +8,7 @@ enum class Command : uint16_t {
     PlayerPosition,
     BallPosition,
 
-    // Requests
-    GetPlayerPositions,
+    EmitSparks,
 
     // Sets
     SetPlayerName

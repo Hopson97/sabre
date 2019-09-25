@@ -34,6 +34,7 @@ void Server::run()
     while (m_isRunning) {
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
         timer.update();
+        m_ball.rect.left += 2;
         m_server.whileTicking<Command>(
             [this](const sabre::Event::Details &details, sf::Packet &packet,
                    Command command) {
@@ -60,6 +61,9 @@ void Server::run()
                     m_server.broadcastToPeers(packet);
                 }
             }
+            auto packet = sabre::makePacket(0, Command::BallPosition);
+            packet << m_ball.rect.left << m_ball.rect.top;
+            m_server.broadcastToPeers(packet);
         });
     }
 }

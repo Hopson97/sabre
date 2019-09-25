@@ -18,6 +18,10 @@ class Server final {
         bool connected = false;
     };
 
+    struct Ball {
+      sf::FloatRect rect;
+    };
+
   public:
     Server();
 
@@ -30,6 +34,7 @@ class Server final {
 
     sabre::Server m_server;
     std::array<Player, sabre::Server::MAX_CONNECTIONS> m_players;
+    Ball m_ball;
 
     bool m_isRunning = true;
 };
