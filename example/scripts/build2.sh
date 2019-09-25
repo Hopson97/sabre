@@ -6,4 +6,4 @@ sh build.sh
 mv sabre/ example/lib/sabre
 cd example
 
-sh scripts/build.sh
+sh scripts/build.sh $1

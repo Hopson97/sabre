@@ -20,9 +20,6 @@ class Application {
     void run();
 
   private:
-    constexpr static unsigned WINDOW_WIDTH = 800;
-    constexpr static unsigned WINDOW_HEIGHT = 600;
-
     constexpr static float PLAYER_HEIGHT = 32;
     constexpr static float PLAYER_WIDTH = 32;
 
@@ -42,11 +39,11 @@ class Application {
     };
 
     struct Ball {
-      Ball() { sprite.setSize({PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2}); }
+        Ball() { sprite.setSize({PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2}); }
 
-      sf::RectangleShape sprite;
-      sf::Vector2f nextPosition;
-      float lerpValue;
+        sf::RectangleShape sprite;
+        sf::Vector2f nextPosition;
+        float lerpValue;
     };
 
     void input();
@@ -57,7 +54,7 @@ class Application {
 
     void handlePlayerPosition(Player &player, sf::Packet &packet);
     void handlePlayerName(Player &player, sf::Packet &packet);
-    void handleBallPosition(sf::Packet& packet);
+    void handleBallPosition(sf::Packet &packet);
 
     sabre::Client m_client;
 

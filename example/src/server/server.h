@@ -19,7 +19,8 @@ class Server final {
     };
 
     struct Ball {
-      sf::FloatRect rect;
+        sf::FloatRect rect;
+        sf::Vector2f velocity;
     };
 
   public:

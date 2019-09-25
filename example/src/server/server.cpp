@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <thread>
+#include <random>
+#include <ctime>
 
 #include <sabre/event.h>
 #include <sabre/packet_factory.h>
@@ -30,11 +32,25 @@ Server::Server()
 
 void Server::run()
 {
+    std::mt19937 random;
+    random.seed(std::time(nullptr));
+
+    std::uniform_real_distribution<float> dist(-1.f, 1.f);
+    m_ball.velocity.x = dist(random) * 3;
+    m_ball.velocity.y = dist(random) * 3;
+
     StepTimer timer(15.0f);
     while (m_isRunning) {
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
         timer.update();
-        m_ball.rect.left += 2;
+
+        m_ball.rect.left += m_ball.velocity.x + dist(random);
+        m_ball.rect.top += m_ball.velocity.y + dist(random);
+
+        if (m_ball.rect.left < 0 || m_ball.rect.left > WINDOW_WIDTH) { m_ball.velocity.x *= -1;}
+        if (m_ball.rect.top < 0 || m_ball.rect.top > WINDOW_HEIGHT) { m_ball.velocity.y *= -1;}
+
         m_server.whileTicking<Command>(
             [this](const sabre::Event::Details &details, sf::Packet &packet,
                    Command command) {

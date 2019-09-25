@@ -132,9 +132,7 @@ void Application::update(sf::Time delta)
         m_player.sprite.setPosition(x, 1);
     }
 
-    auto lerp = [](float a, float b, float t) {
-        return (1 - t) * a + t * b;
-    };
+    auto lerp = [](float a, float b, float t) { return (1 - t) * a + t * b; };
 
     // @TODO Handle repeated code here
     for (auto &player : m_players) {
@@ -151,9 +149,9 @@ void Application::update(sf::Time delta)
 
     m_ball.lerpValue += delta.asSeconds();
     auto newX = lerp(m_ball.sprite.getPosition().x, m_ball.nextPosition.x,
-                         m_ball.lerpValue);
+                     m_ball.lerpValue);
     auto newY = lerp(m_ball.sprite.getPosition().y, m_ball.nextPosition.y,
-                         m_ball.lerpValue);
+                     m_ball.lerpValue);
 
     m_ball.sprite.setPosition(newX, newY);
 }
@@ -210,7 +208,7 @@ void Application::handlePlayerName(Application::Player &player,
     player.text.setString(player.name);
 }
 
-void Application::handleBallPosition(sf::Packet& packet)
+void Application::handleBallPosition(sf::Packet &packet)
 {
     packet >> m_ball.nextPosition.x >> m_ball.nextPosition.y;
     m_ball.lerpValue = 0;
