@@ -41,7 +41,7 @@ class Application {
         bool isConnected = false;
     };
     void input();
-    void update(sf::Clock &elapsed, sf::Time delta);
+    void update(sf::Time delta);
     void render();
 
     void pollWindowEvents();

@@ -9,6 +9,7 @@
 #include <sabre/packet_factory.h>
 
 #include "../common/commands.h"
+#include "../common/step_timer.h"
 
 Server::Server()
     : m_server(4u,
@@ -29,18 +30,16 @@ Server::Server()
 
 void Server::run()
 {
+    StepTimer timer(15.0f);
     while (m_isRunning) {
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        timer.update();
         m_server.whileTicking<Command>(
             [this](const sabre::Event::Details &details, sf::Packet &packet,
                    Command command) {
                 switch (command) {
                     case Command::PlayerPosition:
                         handlePlayerPosition(details.id, packet);
-                        break;
-
-                    case Command::GetPlayerPositions:
-                        handleRequestPlayerPositions(details.id);
                         break;
 
                     case Command::SetPlayerName:
@@ -51,6 +50,17 @@ void Server::run()
                         break;
                 }
             });
+
+        timer.whileUpdate([this]() {
+            for (const auto &player : m_players) {
+                if (player.connected) {
+                    auto packet =
+                        sabre::makePacket(player.id, Command::PlayerPosition);
+                    packet << player.rect.left << player.rect.top;
+                    m_server.broadcastToPeers(packet);
+                }
+            }
+        });
     }
 }
 

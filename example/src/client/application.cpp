@@ -5,6 +5,7 @@
 #include <sabre/packet_factory.h>
 
 #include "../common/commands.h"
+#include "../common/step_timer.h"
 
 Application::Application(std::string name)
     : m_client(sf::IpAddress::LocalHost, 54321,
@@ -42,26 +43,16 @@ void Application::run()
     m_window.setFramerateLimit(60);
     m_window.setKeyRepeatEnabled(false);
 
-    constexpr unsigned TPS = 30; // ticks per seconds
-    const sf::Time timePerUpdate = sf::seconds(1.0f / float(TPS));
-
-    sf::Clock timer;
     sf::Clock netTimer;
-    auto lastTime = sf::Time::Zero;
-    auto lag = sf::Time::Zero;
+
+    StepTimer timer(60.f);
 
     while (m_window.isOpen()) {
-        // Get times
-        auto time = timer.getElapsedTime();
-        auto elapsed = time - lastTime;
-        lastTime = time;
-        lag += elapsed;
+        timer.update();
 
         input();
-        while (lag >= timePerUpdate) {
-            lag -= timePerUpdate;
-            update(timer, elapsed);
-        }
+
+        timer.whileUpdate([this, &timer] { update(timer.getDelta()); });
 
         m_client.whileTicking<Command>(
             [this](const sabre::Event::Details &details, sf::Packet &packet,
@@ -91,11 +82,6 @@ void Application::run()
             m_client.send(packet);
 
             netTimer.restart();
-
-            packet = sabre::makePacket(m_client.getClientId(),
-                                       Command::GetPlayerPositions);
-            m_client.send(packet);
-            netTimer.restart();
         }
         render();
     }
@@ -121,10 +107,9 @@ void Application::input()
     }
 }
 
-void Application::update(sf::Clock &elapsed, sf::Time delta)
+void Application::update(sf::Time delta)
 {
     (void)delta;
-    (void)elapsed;
 
     m_player.sprite.move(m_player.velocity);
     m_player.velocity *= 0.95f;
@@ -194,13 +179,15 @@ void Application::pollWindowEvents()
     }
 }
 
-void Application::handlePlayerPosition(Player &player, sf::Packet &packet)
+void Application::handlePlayerPosition(Application::Player &player,
+                                       sf::Packet &packet)
 {
     packet >> player.nextPosition.x >> player.nextPosition.y;
     player.lerpValue = 0;
 }
 
-void Application::handlePlayerName(Player &player, sf::Packet &packet)
+void Application::handlePlayerName(Application::Player &player,
+                                   sf::Packet &packet)
 {
     packet >> player.name;
     std::cout << "Name: " << player.name << std::endl;

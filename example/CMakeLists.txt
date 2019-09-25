@@ -11,6 +11,7 @@ set(SOURCES
 	src/server/server.cpp
 
 	src/common/commands.cpp
+	src/common/step_timer.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
