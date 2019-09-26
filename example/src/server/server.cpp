@@ -2,10 +2,10 @@
 
 #include <SFML/Network/Packet.hpp>
 
-#include <iostream>
-#include <thread>
-#include <random>
 #include <ctime>
+#include <iostream>
+#include <random>
+#include <thread>
 
 #include <sabre/event.h>
 #include <sabre/packet_factory.h>
@@ -48,8 +48,12 @@ void Server::run()
         m_ball.rect.left += m_ball.velocity.x + dist(random);
         m_ball.rect.top += m_ball.velocity.y + dist(random);
 
-        if (m_ball.rect.left < 0 || m_ball.rect.left > WINDOW_WIDTH) { m_ball.velocity.x *= -1;}
-        if (m_ball.rect.top < 0 || m_ball.rect.top > WINDOW_HEIGHT) { m_ball.velocity.y *= -1;}
+        if (m_ball.rect.left < 0 || m_ball.rect.left > WINDOW_WIDTH) {
+            m_ball.velocity.x *= -1;
+        }
+        if (m_ball.rect.top < 0 || m_ball.rect.top > WINDOW_HEIGHT) {
+            m_ball.velocity.y *= -1;
+        }
 
         m_server.whileTicking<Command>(
             [this](const sabre::Event::Details &details, sf::Packet &packet,
