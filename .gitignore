@@ -1,19 +1,5 @@
-# Project binaries
-/bin
-sf-net
-
-CMakeFiles
-cmake_modules
-MakeFile
-CMakeCache.txt
-cmake_install.cmake
-cmake_modules/
-
 sabre/
-
-!src/sabre
 !include/sabre
 
 .directory
-
 .vscode
