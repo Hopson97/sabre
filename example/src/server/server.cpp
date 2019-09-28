@@ -28,6 +28,8 @@ Server::Server()
                    m_players[static_cast<std::size_t>(id)].connected = false;
                })
 {
+    m_ball.rect.left = WINDOW_WIDTH / 2;
+    m_ball.rect.top = WINDOW_HEIGHT / 2;
 }
 
 void Server::run()

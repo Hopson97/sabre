@@ -10,7 +10,8 @@
 Application::Application(std::string name)
     : m_client(sf::IpAddress::LocalHost, 54321,
                [this](const sabre::Event::Details &details) {
-                   std::cout << details.senderIp.toString();
+                   std::cout << details.senderIp.toString() << std::endl;
+                   std::cout << "Client Connected!" << (int)details.id << std::endl;
                },
                [this](const sabre::Event::Details &details) {
                    std::cout << details.senderIp.toString();
@@ -96,7 +97,7 @@ void Application::input()
     pollWindowEvents();
 
     // Input
-    float speed = 0.15f;
+    float speed = 1.0f;
     if (m_keyboard.isKeyDown(sf::Keyboard::Up)) {
         m_player.velocity.y += -speed;
     }
@@ -114,7 +115,7 @@ void Application::input()
 void Application::update(sf::Time delta)
 {
     m_player.sprite.move(m_player.velocity);
-    m_player.velocity *= 0.95f;
+    m_player.velocity *= 0.85f;
 
     const float x = m_player.sprite.getPosition().x;
     const float y = m_player.sprite.getPosition().y;
