@@ -48,7 +48,6 @@ namespace sabre {
 
     void Client::handlePeerConnection(const Event &event)
     {
-
         m_onPeerConnect(event.details);
     }
 

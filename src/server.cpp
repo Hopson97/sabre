@@ -29,7 +29,7 @@ namespace sabre {
 
     void Server::broadcastToPeers(sf::Packet &packet)
     {
-        
+
         for (std::size_t i = 0; i < m_clients.size(); i++) {
             sendPacketToPeer(static_cast<ClientId>(i), packet);
         }
@@ -48,10 +48,24 @@ namespace sabre {
 
             m_onConnect({event.details.senderIp, event.details.senderPort,
                          static_cast<ClientId>(slot)});
+
+            auto packet = makePacket(Event::EventType::Connect,
+                                     static_cast<ClientId>(slot));
+            broadcastToPeers(packet);
         }
         else {
             event.respond(m_socket, Event::EventType::RejectConnection);
         }
+    }
+
+    void Server::handleDisconnect(const Event &event)
+    {
+        m_onDisconnect({event.details.senderIp, event.details.senderPort, event.details.id});
+        m_clientConnected[static_cast<std::size_t>(event.details.id)] = false;
+
+        auto packet =
+            makePacket(Event::EventType::Disconnect, event.details.id);
+        broadcastToPeers(packet);
     }
 
     void Server::keepAlive(const Event &event)

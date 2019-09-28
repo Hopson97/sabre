@@ -48,6 +48,7 @@ namespace sabre {
 
       private:
         void handleIncomingConnection(const Event &event);
+        void handleDisconnect(const Event& event);
         void handleClientDisconnect(const Event& event);
         void handleNumConnections(const Event& event);
 
@@ -96,8 +97,7 @@ namespace sabre {
                     break;
 
                 case Event::EventType::Disconnect:
-                    // handle disconnect...
-                    m_onDisconnect(event.details);
+                    handleDisconnect(event);
                     break;
 
                 case Event::EventType::KeepAlive:
